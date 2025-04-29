@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 
 // Define blog posts
-export const blogPosts = [
+const blogPosts = [
   {
     id: 'a-new-form-of-seo',
     title: 'A new form of SEO',
