@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowLeft, FiMenu, FiX } from 'react-icons/fi'; // Icons
+import type { Metadata } from "next";
 
 const categories = ['Landing Pages', 'UI/UX', 'Branding'];
 
@@ -23,6 +24,16 @@ const landingPageProjects = [
     tooltip: "I'm either too busy or too lazy to update this. Stay tuned :)"
   }
 ];
+
+export const metadata: Metadata = {
+  title: "Sam | Portfolio",
+  description: "Collection of my work and projects",
+  openGraph: {
+    title: "Sam's Portfolio",
+    description: "Check out my work and projects",
+    images: ['/splitfavicon.svg'],
+  },
+};
 
 export default function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useParams, useRouter } from 'next/navigation';
+import type { Metadata } from "next";
 
 // Define blog posts directly to avoid circular dependency
 // In a real app, you would fetch this from an API endpoint
@@ -146,6 +147,34 @@ const blogPosts = [
     ),
   }
 ];
+
+// This is a dynamic page, so we need to generate metadata based on the params
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  // Find the post with the matching slug
+  const slug = params.slug;
+  const post = blogPosts.find(p => p.id === slug);
+  
+  // Default metadata if post not found
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      description: "The requested blog post could not be found",
+    };
+  }
+  
+  // Return metadata based on post data
+  return {
+    title: `${post.title} | Sam's Blog`,
+    description: post.summary,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      images: ['/splitfavicon.svg'],
+      type: 'article',
+      publishedTime: post.date,
+    },
+  };
+}
 
 export default function BlogPostPage() {
   const params = useParams();

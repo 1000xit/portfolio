@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiArrowLeft } from 'react-icons/fi';
+import type { Metadata } from "next";
 
 // Define blog posts
 const blogPosts = [
@@ -145,6 +146,16 @@ const blogPosts = [
   },
   // Add more posts here as needed
 ];
+
+export const metadata: Metadata = {
+  title: "Sam | Blog",
+  description: "My thoughts on technology, design, and business",
+  openGraph: {
+    title: "Sam's Blog",
+    description: "Articles on technology, design, and business",
+    images: ['/splitfavicon.svg'],
+  },
+};
 
 export default function BlogPage() {
   const router = useRouter();
