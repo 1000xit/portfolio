@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'; // Import motion and An
 import Initializing from '@/components/Initializing';
 import { FiChevronDown, FiMail, FiCalendar } from 'react-icons/fi'; // Added icons
 import Script from 'next/script'; // Import Script from Next.js
-import type { Metadata } from "next";
 
 // Add type declaration for the Cal object to fix TypeScript errors
 declare global {
@@ -13,16 +12,6 @@ declare global {
     Cal?: any;
   }
 }
-
-export const metadata: Metadata = {
-  title: "Sam | Home",
-  description: "Sam's personal website - Developer, Designer, and Writer",
-  openGraph: {
-    title: "Sam Hogan",
-    description: "Developer, Designer, and Writer",
-    images: ['/splitfavicon.svg'],
-  },
-};
 
 export default function Home() {
   // Initialize state based on sessionStorage
