@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiArrowLeft } from 'react-icons/fi';
 
 // Define blog posts
@@ -146,10 +147,7 @@ const blogPosts = [
 ];
 
 export default function BlogPage() {
-  const [selectedPost, setSelectedPost] = useState<string | null>(null);
-
-  // Find the selected post
-  const currentPost = selectedPost ? blogPosts.find(p => p.id === selectedPost) : null;
+  const router = useRouter();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pt-6 sm:pt-10 px-6 sm:px-12 pb-12 bg-white text-[#060606] font-mono">
@@ -171,72 +169,40 @@ export default function BlogPage() {
       {/* Content Area */}
       <div className="w-full max-w-6xl flex justify-center">
         <div className="w-full max-w-4xl">
-          {selectedPost && currentPost ? (
-            <div className="space-y-6 text-left">
-              <button 
-                onClick={() => setSelectedPost(null)}
-                className="text-sm md:text-base hover:underline mb-4"
-              >
-                ← Back to all posts
-              </button>
-              <h2 className="text-xl md:text-2xl font-medium">{currentPost.title}</h2>
-              <p className="text-sm md:text-base text-gray-600">{currentPost.date}</p>
-              <div className="mt-6 text-sm md:text-base">
-                {currentPost.content}
-              </div>
-              <div className="mt-8 pt-4 border-t border-gray-200">
-                <p className="text-sm text-gray-600">
-                  Share this post: <a 
-                    href={`/blog/${currentPost.id}`} 
-                    className="underline hover:text-gray-800"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigator.clipboard.writeText(window.location.origin + `/blog/${currentPost.id}`);
-                      alert('Link copied to clipboard!');
-                    }}
+          <h2 className="text-lg md:text-xl font-medium mb-6">All Posts</h2>
+          <div className="overflow-x-auto w-full">
+            <table className="w-full border-collapse table-fixed">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="py-3 pr-6 text-left text-xs sm:text-sm md:text-base font-normal w-1/4">Title</th>
+                  <th className="py-3 px-6 text-left text-xs sm:text-sm md:text-base font-normal w-1/6">Date</th>
+                  <th className="py-3 pl-6 text-left text-xs sm:text-sm md:text-base font-normal">Summary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {blogPosts.map((post) => (
+                  <tr 
+                    key={post.id} 
+                    className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push(`/blog/${post.id}`)}
                   >
-                    Copy link
-                  </a>
-                </p>
-              </div>
-            </div>
-          ) : (
-            <>
-              <h2 className="text-lg md:text-xl font-medium mb-6">All Posts</h2>
-              <div className="overflow-x-auto w-full">
-                <table className="w-full border-collapse table-fixed">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="py-3 pr-6 text-left text-xs sm:text-sm md:text-base font-normal w-1/4">Title</th>
-                      <th className="py-3 px-6 text-left text-xs sm:text-sm md:text-base font-normal w-1/6">Date</th>
-                      <th className="py-3 pl-6 text-left text-xs sm:text-sm md:text-base font-normal">Summary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {blogPosts.map((post) => (
-                      <tr 
-                        key={post.id} 
-                        className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <td className="py-3 pr-6 text-xs sm:text-sm md:text-base">
-                          <Link href={`/blog/${post.id}`} className="hover:underline">
-                            {post.title}
-                          </Link>
-                        </td>
-                        <td className="py-3 px-6 text-xs sm:text-sm md:text-base text-gray-600">{post.date}</td>
-                        <td className="py-3 pl-6 text-xs sm:text-sm md:text-base relative">
-                          <div className="relative overflow-hidden">
-                            <div className="pr-4">{post.summary}</div>
-                            <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
+                    <td className="py-3 pr-6 text-xs sm:text-sm md:text-base">
+                      <Link href={`/blog/${post.id}`} className="hover:underline">
+                        {post.title}
+                      </Link>
+                    </td>
+                    <td className="py-3 px-6 text-xs sm:text-sm md:text-base text-gray-600">{post.date}</td>
+                    <td className="py-3 pl-6 text-xs sm:text-sm md:text-base relative">
+                      <div className="relative overflow-hidden">
+                        <div className="pr-4">{post.summary}</div>
+                        <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>
