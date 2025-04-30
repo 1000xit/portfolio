@@ -12,8 +12,8 @@ const initialLines = [
   ' ',
   '✓ Starting...',
   '✓ Ready in 1096ms',
-  '○ Compiling /_not-found/page ...',
-  '✓ Compiled /_not-found/page in 2.7s',
+  '○ Compiling /home/page ...',
+  '✓ Compiled /home/page in 2.7s',
   ' ',
   ' ',
 ];
