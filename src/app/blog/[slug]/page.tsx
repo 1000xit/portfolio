@@ -185,30 +185,37 @@ export default function BlogPostPage() {
     
     setSubmitStatus('submitting');
     
-    // This is a simple implementation that logs to localStorage
-    // In a real app, you'd send this to your backend or a service like Formspree
-    try {
-      // Get existing emails or initialize empty array
-      const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
-      
-      // Add new email if it doesn't already exist
-      if (!existingEmails.includes(email)) {
-        existingEmails.push(email);
-        localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
-      }
-      
-      setSubmitStatus('success');
-      
-      // Reset form after success
-      setTimeout(() => {
-        setEmail('');
-        setShowModal(false);
-        setSubmitStatus('idle');
-      }, 2000);
-    } catch (error) {
-      console.error('Error saving email:', error);
-      setSubmitStatus('error');
-    }
+    // Send the email to the webhook
+    fetch('https://hook.us1.make.com/paumskl2xonj0xu91q4l8scgip59s6a8', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        source: 'blog_newsletter',
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        post_title: post?.title || 'Unknown post'
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        setSubmitStatus('success');
+        
+        // Reset form after success
+        setTimeout(() => {
+          setEmail('');
+          setShowModal(false);
+          setSubmitStatus('idle');
+        }, 2000);
+      })
+      .catch(error => {
+        console.error('Error submitting email:', error);
+        setSubmitStatus('error');
+      });
   };
 
   if (loading) {
