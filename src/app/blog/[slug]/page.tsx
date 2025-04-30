@@ -228,24 +228,25 @@ export default function BlogPostPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pt-6 sm:pt-10 px-6 sm:px-12 pb-12 bg-white text-[#060606] font-mono">
-      {/* Header Section */}
-      <header className="relative w-full max-w-6xl mx-auto flex items-center justify-between mb-8">
+      {/* Header Section - Improved responsive layout */}
+      <header className="relative w-full max-w-6xl mx-auto flex items-center justify-between mb-8 px-1">
         {/* Back Arrow */}
-        <Link href="/blog" className="p-1 hover:opacity-70 transition-opacity" aria-label="Back to blog">
+        <Link href="/blog" className="p-1 hover:opacity-70 transition-opacity z-10" aria-label="Back to blog">
           <FiArrowLeft size={20} />
         </Link>
         
-        {/* Centered Title */}
-        <h1 className="text-sm sm:text-md font-medium absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {/* Centered Title - Fixed positioning for smaller screens */}
+        <h1 className="text-sm sm:text-md font-medium absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
           MY THOUGHTS
         </h1>
 
-        {/* Newsletter Button */}
+        {/* Newsletter Button - Different text for mobile */}
         <button 
           onClick={() => setShowModal(true)}
-          className="text-xs sm:text-sm font-mono py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+          className="text-xs sm:text-sm font-mono py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors z-10"
         >
-          Join my newsletter
+          <span className="hidden sm:inline">Join newsletter</span>
+          <span className="sm:hidden">Subscribe</span>
         </button>
       </header>
 
@@ -259,25 +260,23 @@ export default function BlogPostPage() {
               {post.content}
             </div>
             <div className="mt-8 pt-4 border-t border-gray-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-gray-600 mb-3 sm:mb-0">
-                  Share this post: <a 
-                    href={`/blog/${post.id}`} 
-                    className="underline hover:text-gray-800"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigator.clipboard.writeText(window.location.href);
-                      alert('Link copied to clipboard!');
-                    }}
-                  >
-                    Copy link
-                  </a>
-                </p>
+              {/* Two side-by-side buttons */}
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard!');
+                  }}
+                  className="flex-1 text-sm font-mono py-2 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-center"
+                >
+                  Share
+                </button>
                 <button 
                   onClick={() => setShowModal(true)}
-                  className="text-sm font-mono py-1 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors self-start sm:self-auto"
+                  className="flex-1 text-sm font-mono py-2 px-3 bg-[#060606] text-white rounded hover:bg-gray-800 transition-colors text-center"
                 >
-                  Join my newsletter
+                  Subscribe
                 </button>
               </div>
             </div>

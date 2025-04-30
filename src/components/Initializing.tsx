@@ -93,11 +93,11 @@ export default function Initializing({ onComplete }: InitializingProps) {
   return (
     <div
       ref={containerRef}
-      className={`font-mono bg-white text-[#060606] min-h-screen flex flex-col justify-center items-center p-4`}
+      className="font-mono bg-white text-[#060606] min-h-screen flex flex-col justify-center items-center p-4 overflow-hidden"
       onClick={handleClick}
       style={{ cursor: showFinalLine ? 'pointer' : 'default' }}
     >
-      <div className="max-w-4xl text-left">
+      <div className="w-full max-w-4xl text-left overflow-x-hidden">
         
         {!showFinalLine && (
           <div
@@ -106,7 +106,7 @@ export default function Initializing({ onComplete }: InitializingProps) {
             }`}
           >
             {displayedLines.map((line, index) => (
-              <p key={index} className="h-6"> 
+              <p key={index} className="min-h-6 mb-1 break-words whitespace-pre-wrap text-sm sm:text-base overflow-hidden"> 
                 {line}
               </p>
             ))}
@@ -117,9 +117,9 @@ export default function Initializing({ onComplete }: InitializingProps) {
 
         {showFinalLine && (
           <div 
-            className={`transition-opacity duration-500 ease-out opacity-100`}
+            className="transition-opacity duration-500 ease-out opacity-100"
           >
-            <p className="h-6">
+            <p className="h-6 text-sm sm:text-base">
               {finalLine.slice(0, -1)} 
               <span className="animate-blink">{finalLine.slice(-1)}</span> 
             </p>
