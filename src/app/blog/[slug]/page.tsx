@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { useParams, useRouter } from 'next/navigation';
 
 // Define blog posts directly to avoid circular dependency
@@ -159,6 +159,9 @@ export default function BlogPostPage() {
   const router = useRouter();
   const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [email, setEmail] = useState('');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     if (params.slug) {
@@ -174,6 +177,39 @@ export default function BlogPostPage() {
     }
     setLoading(false);
   }, [params.slug, router]);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || submitStatus === 'submitting') return;
+    
+    setSubmitStatus('submitting');
+    
+    // This is a simple implementation that logs to localStorage
+    // In a real app, you'd send this to your backend or a service like Formspree
+    try {
+      // Get existing emails or initialize empty array
+      const existingEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
+      
+      // Add new email if it doesn't already exist
+      if (!existingEmails.includes(email)) {
+        existingEmails.push(email);
+        localStorage.setItem('newsletter_emails', JSON.stringify(existingEmails));
+      }
+      
+      setSubmitStatus('success');
+      
+      // Reset form after success
+      setTimeout(() => {
+        setEmail('');
+        setShowModal(false);
+        setSubmitStatus('idle');
+      }, 2000);
+    } catch (error) {
+      console.error('Error saving email:', error);
+      setSubmitStatus('error');
+    }
+  };
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -197,7 +233,13 @@ export default function BlogPostPage() {
           MY THOUGHTS
         </h1>
 
-        <div className="w-5"></div> {/* Placeholder for symmetry */}
+        {/* Newsletter Button */}
+        <button 
+          onClick={() => setShowModal(true)}
+          className="text-xs sm:text-sm font-mono py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+        >
+          Join my newsletter
+        </button>
       </header>
 
       {/* Content Area */}
@@ -210,23 +252,86 @@ export default function BlogPostPage() {
               {post.content}
             </div>
             <div className="mt-8 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-600">
-                Share this post: <a 
-                  href={`/blog/${post.id}`} 
-                  className="underline hover:text-gray-800"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(window.location.href);
-                    alert('Link copied to clipboard!');
-                  }}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-gray-600 mb-3 sm:mb-0">
+                  Share this post: <a 
+                    href={`/blog/${post.id}`} 
+                    className="underline hover:text-gray-800"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigator.clipboard.writeText(window.location.href);
+                      alert('Link copied to clipboard!');
+                    }}
+                  >
+                    Copy link
+                  </a>
+                </p>
+                <button 
+                  onClick={() => setShowModal(true)}
+                  className="text-sm font-mono py-1 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors self-start sm:self-auto"
                 >
-                  Copy link
-                </a>
-              </p>
+                  Join my newsletter
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Newsletter Modal */}
+      {showModal && (
+        <div className="fixed inset-0 backdrop-blur-md bg-white/50 flex items-center justify-center p-4 z-50 transition-all duration-300">
+          <div className="bg-white rounded-md p-6 max-w-md w-full relative shadow-lg">
+            <button 
+              onClick={() => setShowModal(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              aria-label="Close"
+            >
+              <FiX size={20} />
+            </button>
+            
+            <h3 className="text-lg font-medium mb-4">Join my newsletter</h3>
+            <p className="text-sm text-gray-600 mb-6">Get notified when I publish new articles about product design, GTM, and AI-first strategy.</p>
+            
+            <form onSubmit={handleSubscribe}>
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-sm text-sm font-mono focus:outline-none focus:ring-1 focus:ring-gray-900"
+                  disabled={submitStatus === 'submitting' || submitStatus === 'success'}
+                />
+              </div>
+              
+              <button
+                type="submit"
+                disabled={submitStatus === 'submitting' || submitStatus === 'success'}
+                className={`w-full py-2 px-4 text-sm font-mono rounded-sm transition-colors ${
+                  submitStatus === 'success' 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-[#060606] text-white hover:bg-gray-800'
+                }`}
+              >
+                {submitStatus === 'submitting' ? 'Subscribing...' : 
+                 submitStatus === 'success' ? 'Subscribed!' : 
+                 submitStatus === 'error' ? 'Try again' : 
+                 'Subscribe'}
+              </button>
+              
+              {submitStatus === 'error' && (
+                <p className="mt-2 text-xs text-red-600">Something went wrong. Please try again.</p>
+              )}
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 } 
