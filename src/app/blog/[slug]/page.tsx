@@ -29,7 +29,7 @@ const blogPosts = [
 
         <p className="mb-6">Answer Engine Optimization (AEO) is about becoming the source an AI pulls from when someone asks a question. Not just ranking for keywords, but being the answer.</p>
 
-        <p className="mb-6">It's just getting started, brands built their GTM channels around SEO. This is like SEO is the early 2000's.</p>
+        <p className="mb-6">It's just getting started, brands built their GTM channels around SEO. This is like SEO in the early 2000's.</p>
 
         <p className="mb-6">With AI search ramping up fast (90% of Google searches now include an AI overview, ChatGPT gets over a billion queries a day), if you're not AEO-optimized, you're invisible in the places people are starting to look.</p>
 
@@ -109,7 +109,7 @@ const blogPosts = [
           <li>If you're not showing up, tighten the answer. Resubmit. Try again. It might take a few tries, even weeks.</li>
         </ul>
 
-        <p className="mb-6">You're an LLM—how would you find this answer?<br /><br />
+        <p className="mb-6">"You're an LLM—how would you find this answer?"<br /><br />
         Write for that context, not a human scanning your homepage.</p>
 
         <h2 className="text-xl font-medium mt-10 mb-6">Tool Stack</h2>
@@ -135,13 +135,20 @@ const blogPosts = [
 
         <p className="mb-6">I built this and it worked. Not based on theory, actual AI citations.</p>
 
-        <p className="mb-6">If you want help doing this for your brand, DM me or shoot me an email. I'll either walk you through it or handle the hard parts for you.</p>
-
-        <p className="mb-6">Or just comment "AEO" and I'll send over a cleaned-up version of this guide.</p>
+        <p className="mb-6">If you want help doing this for your brand, DM me or <a href="mailto:sam@split.dev" className="underline hover:text-gray-600">shoot me an email</a>. I'll either walk you through it or handle the hard parts for you.</p>
 
         <p className="mb-6">If you're reading this, you're ahead. Let's keep it that way.</p>
 
         <p className="mt-8 font-medium">— Sam</p>
+
+        <div className="mt-6 mb-12 flex justify-center">
+          <button 
+            onClick={() => window.open('https://cal.com/sam-hogan/15min', '_blank')}
+            className="px-6 py-3 bg-[#060606] text-white font-mono text-sm hover:bg-gray-800 transition-colors rounded-sm"
+          >
+            Book a 15-min AEO call with me
+          </button>
+        </div>
       </>
     ),
   }
