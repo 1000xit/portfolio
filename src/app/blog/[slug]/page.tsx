@@ -186,7 +186,7 @@ export default function BlogPostPage() {
     setSubmitStatus('submitting');
     
     // Send the email to the webhook
-    fetch('https://hook.us1.make.com/paumskl2xonj0xu91q4l8scgip59s6a8', {
+    fetch('https://hook.us1.make.com/b5w26f4wxn25ehmw8193o33uvmr9pvb3', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
