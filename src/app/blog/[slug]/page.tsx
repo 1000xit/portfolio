@@ -259,22 +259,21 @@ export default function BlogPostPage() {
             <div className="mt-6 text-sm md:text-base">
               {post.content}
             </div>
-            <div className="mt-8 pt-4 border-t border-gray-200">
-              {/* Two side-by-side buttons */}
-              <div className="flex items-center justify-between gap-2">
+            <div className="mt-8">
+              <div className="flex items-center gap-3">
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     navigator.clipboard.writeText(window.location.href);
                     alert('Link copied to clipboard!');
                   }}
-                  className="flex-1 text-sm font-mono py-2 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-center"
+                  className="text-xs font-mono py-1 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-center"
                 >
                   Share
                 </button>
                 <button 
                   onClick={() => setShowModal(true)}
-                  className="flex-1 text-sm font-mono py-2 px-3 bg-[#060606] text-white rounded hover:bg-gray-800 transition-colors text-center"
+                  className="text-xs font-mono py-1 px-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-center"
                 >
                   Subscribe
                 </button>
