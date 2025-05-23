@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sam's Blog",
     description: "Articles on technology, design, and business",
-    images: ['/splitfavicon.svg'],
+    images: ['/split-icon.svg'],
   },
 }; 
