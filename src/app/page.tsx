@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // Import motion and An
 import Initializing from '@/components/Initializing';
 import { FiChevronDown, FiMail, FiCalendar } from 'react-icons/fi'; // Added icons
 import Script from 'next/script'; // Import Script from Next.js
+import Image from 'next/image'; // Import Image from Next.js
 
 // Add type declaration for the Cal object to fix TypeScript errors
 declare global {
@@ -210,9 +211,11 @@ export default function Home() {
           >
             <div className="flex items-center w-full border-b border-gray-100 pb-5">
               <div className="relative">
-                <img 
+                <Image 
                   src="/samh.jpg" 
                   alt="Sam Hogan" 
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full object-cover border border-gray-100"
                 />
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[1.5px] border-white"></div>
@@ -245,14 +248,15 @@ export default function Home() {
           {/* Link Block */}
           <div className="flex flex-col items-start font-mono text-[#060606]">
             <motion.a 
-              href="/portfolio" 
+              href="https://split.dev/" 
+              target="_blank" rel="noopener noreferrer" 
               className="text-lg mb-2 relative inline-block"
               variants={linkVariants} // Use link variants
               initial="initial"
               whileHover="hover" // Use hover state name
             >
               <span className="relative inline-block">
-                {'>'} my work (portfolio)
+                {'>'} improve your AEO
                 <motion.div 
                   className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#060606] origin-left"
                   variants={underlineVariants} // Use underline variants

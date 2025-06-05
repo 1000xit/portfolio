@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samhogan.sh/sitemap.xml 

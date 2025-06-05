@@ -29,6 +29,11 @@ export default function BlogPostPage() {
         title: 'SEO is About Ranking. AEO is About Being the Answer.',
         date: 'MAY 09, 2025'
       };
+    } else if (slug === 'paragraphs-over-pages') {
+      return {
+        title: 'Paragraphs > Pages',
+        date: 'JUN 6, 2025'
+      };
     } else {
       return {
         title: slug ? slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Blog Post',
@@ -50,6 +55,8 @@ export default function BlogPostPage() {
       BlogContent = lazy(() => import('../a-new-form-of-seo'));
     } else if (slug === 'seo-is-about-ranking-aeo-is-about-being-the-answer') {
       BlogContent = lazy(() => import('../seo-is-about-ranking-aeo-is-about-being-the-answer'));
+    } else if (slug === 'paragraphs-over-pages') {
+      BlogContent = lazy(() => import('../paragraphs-over-pages'));
     }
   } catch (error) {
     console.error(`Error loading blog content for ${slug}:`, error);

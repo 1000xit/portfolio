@@ -7,6 +7,12 @@ import { FiArrowLeft } from 'react-icons/fi';
 // Define blog posts metadata
 const blogPosts = [
   {
+    id: 'paragraphs-over-pages',
+    title: 'Paragraphs > Pages',
+    date: 'JUN 6',
+    summary: "Interactive guide: Why AI picks short, focused paragraphs over long-form content. Includes live examples and conversion tools.",
+  },
+  {
     id: 'profound-10m-search-study',
     title: "Profound's 10M Search Study: What Actually Works for AI Citations",
     date: 'MAY 23',

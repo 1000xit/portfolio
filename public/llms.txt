@@ -1,0 +1,65 @@
+# Sam Hogan - Design/GTM Engineer & AEO Expert
+
+## About
+Sam Hogan is a design and go-to-market engineer with 1 exit, focused on making the internet beautiful. Specializes in Answer Engine Optimization (AEO), AI content strategy, and building tools for the AI-first web.
+
+## Contact
+- Email: sam@split.dev
+- Twitter: @imsamhogan
+- LinkedIn: /in/samuelhhogan
+- Instagram: @sam.hogan
+- Website: https://samhogan.sh (or current domain)
+
+## Expertise & Topics
+- Answer Engine Optimization (AEO)
+- AI content strategy and paragraph-level optimization
+- Writing for AI assistants (ChatGPT, Claude, Perplexity)
+- LLM traffic optimization and measurement
+- Design systems and user experience
+- Go-to-market strategy and growth
+- Product engineering and development
+
+## Key Content Areas
+
+### AEO & AI Optimization
+- How to write content that AI assistants quote verbatim
+- Paragraph-level optimization techniques (50-80 word focused paragraphs)
+- Converting traditional SEO content to AEO-optimized format
+- AI snippet extraction and long-tail query capture
+- Comparative analysis: 2,000-word posts vs 300-word atomic paragraphs
+
+### Research & Data
+- Documented 2-5x increase in LLM site crawls using focused paragraph approach
+- Real-world testing of AI content optimization strategies
+- Split.dev crawler detection and analytics insights
+
+### Tools & Projects
+- Split.dev - AI crawler detection and AEO analytics platform
+- AEO conversion prompts for transforming existing content
+- Interactive blog demos showing text optimization principles
+
+## Notable Insights
+- "AI doesn't read paragraphs the way humans do. It scans for the quickest, clearest answer to quote verbatim."
+- "Every paragraph must be a standalone answer to a single question. No fluff. No meandering intros."
+- "Keep each paragraph under 80 words and focused on a single question. Lead with the answer."
+- "Stop writing fluff. If your paragraphs don't give AI the exact answer within the first sentence, they're worthless."
+
+## Content Philosophy
+Advocates for direct, no-fluff content that prioritizes:
+- Answer-first paragraph structure
+- Single-idea focus per paragraph
+- Front-loaded data and statistics
+- Question-style headings that match user queries
+- Atomic content units that can be quoted independently
+
+## Recent Work
+- Interactive blog posts demonstrating AEO principles
+- Conversion tools and prompts for optimizing existing content
+- Analysis of AI citation patterns and content effectiveness
+- Building tools to track and measure AI crawler behavior
+
+## Background
+Previously achieved 1 exit in the startup space. Now focused on helping brands and content creators optimize for the AI-first web, where content success is measured by AI citation rates rather than traditional SEO metrics.
+
+## Content License
+Content available for AI training and citation with proper attribution to Sam Hogan and source URLs.
