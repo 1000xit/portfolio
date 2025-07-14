@@ -2,15 +2,23 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FiArrowLeft, FiX, FiLinkedin, FiTwitter } from 'react-icons/fi';
-import { lazy, Suspense, useState } from 'react';
+import { FiArrowLeft, FiLinkedin, FiTwitter } from 'react-icons/fi';
+import { lazy, Suspense, useState, useEffect } from 'react';
+import NewsletterModal from '@/components/NewsletterModal';
 
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState('');
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  // Show newsletter modal after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
   
   // Post metadata
   const getPostMetadata = () => {
@@ -33,6 +41,11 @@ export default function BlogPostPage() {
       return {
         title: 'Paragraphs > Pages',
         date: 'JUN 6, 2025'
+      };
+    } else if (slug === 'how-to-fix-your-website-for-ai-search-aeo') {
+      return {
+        title: 'How to fix your website for AI search (AEO)',
+        date: 'JUL 14, 2025'
       };
     } else {
       return {
@@ -57,50 +70,14 @@ export default function BlogPostPage() {
       BlogContent = lazy(() => import('../seo-is-about-ranking-aeo-is-about-being-the-answer'));
     } else if (slug === 'paragraphs-over-pages') {
       BlogContent = lazy(() => import('../paragraphs-over-pages'));
+    } else if (slug === 'how-to-fix-your-website-for-ai-search-aeo') {
+      BlogContent = lazy(() => import('../how-to-fix-your-website-for-ai-search-aeo'));
     }
   } catch (error) {
     console.error(`Error loading blog content for ${slug}:`, error);
   }
   
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email || submitStatus === 'submitting') return;
-    
-    setSubmitStatus('submitting');
-    
-    // Send the email to the webhook
-    fetch('https://hook.us1.make.com/b5w26f4wxn25ehmw8193o33uvmr9pvb3', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        source: 'blog_newsletter',
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        post_title: slug || 'Unknown post'
-      }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        setSubmitStatus('success');
-        
-        // Reset form after success
-        setTimeout(() => {
-          setEmail('');
-          setShowModal(false);
-          setSubmitStatus('idle');
-        }, 2000);
-      })
-      .catch(error => {
-        console.error('Error submitting email:', error);
-        setSubmitStatus('error');
-      });
-  };
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pt-6 sm:pt-10 px-6 sm:px-12 pb-12 bg-white text-[#060606] font-mono animate-in">
@@ -217,59 +194,10 @@ export default function BlogPostPage() {
       </div>
 
       {/* Newsletter Modal */}
-      {showModal && (
-        <div className="fixed inset-0 backdrop-blur-md bg-white/50 flex items-center justify-center p-4 z-50 transition-all duration-300 animate-in">
-          <div className="bg-white rounded-md p-6 max-w-md w-full relative shadow-lg card-hover">
-            <button 
-              onClick={() => setShowModal(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 transition-all duration-200 ease-out hover-scale btn-press"
-              aria-label="Close"
-            >
-              <FiX size={20} />
-            </button>
-            
-            <h3 className="text-lg font-medium mb-4">Join my newsletter</h3>
-            <p className="text-sm text-gray-600 mb-6">Get notified when I publish new articles about product design, GTM, and AI-first strategy.</p>
-            
-            <form onSubmit={handleSubscribe}>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-sm text-sm font-mono focus:outline-none focus:ring-1 focus:ring-gray-900 transition-all duration-200 ease-out"
-                  disabled={submitStatus === 'submitting' || submitStatus === 'success'}
-                />
-              </div>
-              
-              <button
-                type="submit"
-                disabled={submitStatus === 'submitting' || submitStatus === 'success'}
-                className={`w-full py-2 px-4 text-sm font-mono rounded-sm transition-all duration-200 ease-out btn-press ${
-                  submitStatus === 'success' 
-                    ? 'bg-green-600 text-white' 
-                    : 'bg-[#060606] text-white hover:bg-gray-800 hover-scale'
-                }`}
-              >
-                {submitStatus === 'submitting' ? 'Subscribing...' : 
-                 submitStatus === 'success' ? 'Subscribed!' : 
-                 submitStatus === 'error' ? 'Try again' : 
-                 'Subscribe'}
-              </button>
-              
-              {submitStatus === 'error' && (
-                <p className="mt-2 text-xs text-red-600">Something went wrong. Please try again.</p>
-              )}
-            </form>
-          </div>
-        </div>
-      )}
+      <NewsletterModal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)} 
+      />
     </main>
   );
 } 

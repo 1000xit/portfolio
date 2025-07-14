@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
+import NewsletterModal from '@/components/NewsletterModal';
 
 // Define blog posts metadata
 const blogPosts = [
@@ -30,11 +32,27 @@ const blogPosts = [
     date: 'MAY 09', // Derived from "Published May 2025"
     summary: 'Most brands are still playing the wrong game.',
   },
+  {
+    id: 'how-to-fix-your-website-for-ai-search-aeo',
+    title: 'How to fix your website for AI search (AEO)',
+    date: 'JUL 14',
+    summary: '8 Quick Wins to Make Your Website AI-Ready (AEO Edition)',
+  },
   // Add more posts here as needed
 ];
 
 export default function BlogPage() {
   const router = useRouter();
+  const [showNewsletterModal, setShowNewsletterModal] = useState(false);
+
+  // Show newsletter modal after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowNewsletterModal(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start pt-6 sm:pt-10 px-6 sm:px-12 pb-12 bg-white text-[#060606] font-mono animate-in">
@@ -93,6 +111,12 @@ export default function BlogPage() {
           </div>
         </div>
       </div>
+
+      {/* Newsletter Modal */}
+      <NewsletterModal 
+        isOpen={showNewsletterModal} 
+        onClose={() => setShowNewsletterModal(false)} 
+      />
     </main>
   );
 } 

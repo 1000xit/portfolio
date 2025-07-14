@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'; // Added useRef
 import { motion, AnimatePresence } from 'framer-motion'; // Import motion and AnimatePresence
-import Initializing from '@/components/Initializing';
 import { FiChevronDown, FiMail, FiCalendar } from 'react-icons/fi'; // Added icons
 import Script from 'next/script'; // Import Script from Next.js
 import Image from 'next/image'; // Import Image from Next.js
@@ -15,14 +14,7 @@ declare global {
 }
 
 export default function Home() {
-  // Initialize state based on sessionStorage
-  const [isInitializing, setIsInitializing] = useState(() => {
-    // Check sessionStorage only on client
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('hasInitialized') !== 'true';
-    }
-    return true; // Default to initializing on server
-  });
+
 
   // State for dropdown menu
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,8 +22,8 @@ export default function Home() {
 
   // Initialize Cal.com after component mounts
   useEffect(() => {
-    // Only initialize Cal if the window object exists and isn't initializing
-    if (typeof window !== 'undefined' && !isInitializing) {
+    // Only initialize Cal if the window object exists
+    if (typeof window !== 'undefined') {
       // Check if Cal script has already been added
       if (window.Cal && !window.Cal.loaded) {
         // Add Cal.com script
@@ -52,7 +44,7 @@ export default function Home() {
         window.Cal.ns["15min"]("ui", {"hideEventTypeDetails": false, "layout": "month_view"});
       }
     }
-  }, [isInitializing]);
+  }, []);
 
   // Effect to handle click outside dropdown
   useEffect(() => {
@@ -68,17 +60,7 @@ export default function Home() {
     };
   }, [dropdownRef]);
 
-  // Effect to handle potential race condition or if initial state was server-side
-  useEffect(() => {
-    if (sessionStorage.getItem('hasInitialized') === 'true') {
-      setIsInitializing(false);
-    }
-  }, []);
 
-  // Callback function for Initializing component to call on click
-  const handleInitComplete = () => {
-    setIsInitializing(false);
-  };
 
   // Framer Motion variants for smooth fade transitions
   const pageVariants = {
@@ -141,29 +123,13 @@ export default function Home() {
   };
 
   return (
-    // Use AnimatePresence to handle exit animations
-    <AnimatePresence mode="wait">
-      {isInitializing ? (
-        // Initializing Component
-        <motion.div
-          key="initializing" // Unique key for AnimatePresence
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          <Initializing onComplete={handleInitComplete} />
-        </motion.div>
-      ) : (
-        // Main Page Content (Blank White Page)
-        <motion.div
-          key="main-content" // Unique key for AnimatePresence
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          className="flex min-h-screen flex-col items-center justify-center bg-white p-4" // Explicit white bg and padding
-        >
+    // Main Page Content (Blank White Page)
+    <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      className="flex min-h-screen flex-col items-center justify-center bg-white p-4" // Explicit white bg and padding
+    >
           {/* Cal.com Script */}
           <Script 
             id="cal-script"
@@ -247,23 +213,7 @@ export default function Home() {
           
           {/* Link Block */}
           <div className="flex flex-col items-start font-mono text-[#060606]">
-            <motion.a 
-              href="https://split.dev/" 
-              target="_blank" rel="noopener noreferrer" 
-              className="text-lg mb-2 relative inline-block"
-              variants={linkVariants} // Use link variants
-              initial="initial"
-              whileHover="hover" // Use hover state name
-            >
-              <span className="relative inline-block">
-                {'>'} improve your AEO
-                <motion.div 
-                  className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#060606] origin-left"
-                  variants={underlineVariants} // Use underline variants
-                  initial="initial"
-                />
-              </span>
-            </motion.a>
+
 
             <motion.a 
               href="/blog" 
@@ -404,7 +354,5 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
-      )}
-    </AnimatePresence>
   );
 }
